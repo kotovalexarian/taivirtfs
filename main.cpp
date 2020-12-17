@@ -1,3 +1,5 @@
+#include <errno.h>
+
 #define FUSE_USE_VERSION 31
 #include <cuse_lowlevel.h>
 #include <fuse_opt.h>
@@ -29,6 +31,17 @@ static void on_write(
     struct fuse_file_info *file_info
 );
 
+static void on_ioctl(
+    fuse_req_t req,
+    int cmd,
+    void *arg,
+    struct fuse_file_info *file_info,
+    unsigned flags,
+    const void *in_buf,
+    size_t in_buf_size,
+    size_t out_buf_size
+);
+
 static const struct cuse_lowlevel_ops cuse_lowlevel_ops = {
     .init      = nullptr,
     .init_done = nullptr,
@@ -39,7 +52,7 @@ static const struct cuse_lowlevel_ops cuse_lowlevel_ops = {
     .flush     = nullptr,
     .release   = nullptr,
     .fsync     = nullptr,
-    .ioctl     = nullptr,
+    .ioctl     = on_ioctl,
     .poll      = nullptr,
 };
 
@@ -84,4 +97,25 @@ void on_write(
     struct fuse_file_info *file_info __attribute__((unused))
 ) {
     fuse_reply_write(req, size);
+}
+
+void on_ioctl(
+    fuse_req_t req,
+    const int cmd,
+    void *const arg __attribute__((unused)),
+    struct fuse_file_info *const file_info __attribute__((unused)),
+    const unsigned flags,
+    const void *const in_buf __attribute__((unused)),
+    const size_t in_buf_size __attribute__((unused)),
+    const size_t out_buf_size __attribute__((unused))
+) {
+    if (flags & FUSE_IOCTL_COMPAT) {
+        fuse_reply_err(req, ENOSYS);
+        return;
+    }
+
+    switch (cmd) {
+    default:
+        fuse_reply_err(req, EINVAL);
+    }
 }
