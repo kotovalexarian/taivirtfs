@@ -31,22 +31,6 @@ static void on_write(
     struct fuse_file_info *file_info
 );
 
-static void on_flush(fuse_req_t req, struct fuse_file_info *file_info);
-
-static void on_release(fuse_req_t req, struct fuse_file_info *file_info);
-
-static void on_fsync(
-    fuse_req_t req,
-    int datasync,
-    struct fuse_file_info *file_info
-);
-
-static void on_poll(
-    fuse_req_t req,
-    struct fuse_file_info *file_info,
-    struct fuse_pollhandle *poll_handle
-);
-
 static const struct cuse_lowlevel_ops cuse_lowlevel_ops = {
     .init      = nullptr,
     .init_done = nullptr,
@@ -54,11 +38,11 @@ static const struct cuse_lowlevel_ops cuse_lowlevel_ops = {
     .open      = on_open,
     .read      = on_read,
     .write     = on_write,
-    .flush     = on_flush,
-    .release   = on_release,
-    .fsync     = on_fsync,
+    .flush     = nullptr,
+    .release   = nullptr,
+    .fsync     = nullptr,
     .ioctl     = nullptr,
-    .poll      = on_poll,
+    .poll      = nullptr,
 };
 
 int main(int argc, char **argv)
@@ -108,42 +92,4 @@ void on_write(
     std::cout << "write" << std::endl;
 
     fuse_reply_write(req, size);
-}
-
-void on_flush(
-    fuse_req_t req,
-    struct fuse_file_info *const file_info __attribute__((unused))
-) {
-    std::cout << "flush" << std::endl;
-
-    fuse_reply_err(req, 0);
-}
-
-void on_release(
-    fuse_req_t req,
-    struct fuse_file_info *const file_info __attribute__((unused))
-) {
-    std::cout << "release" << std::endl;
-
-    fuse_reply_err(req, 0);
-}
-
-void on_fsync(
-    fuse_req_t req,
-    const int datasync __attribute__((unused)),
-    struct fuse_file_info *const file_info __attribute__((unused))
-) {
-    std::cout << "fsync" << std::endl;
-
-    fuse_reply_err(req, 0);
-}
-
-static void on_poll(
-    fuse_req_t req,
-    struct fuse_file_info *file_info __attribute__((unused)),
-    struct fuse_pollhandle *poll_handle __attribute__((unused))
-) {
-    std::cout << "poll" << std::endl;
-
-    fuse_reply_err(req, 0);
 }
