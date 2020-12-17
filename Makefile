@@ -1,11 +1,18 @@
 CXX = g++
 
-EXE = taivirtfs
+CFLAGS = -Wall -Wextra `pkg-config fuse3 --cflags`
+LDFLAGS = `pkg-config fuse3 --libs`
 
+EXE = taivirtfs
 OBJS = main.o
 
+all: $(EXE)
+
+clean:
+	rm -f $(EXE) $(OBJS)
+
 $(EXE): $(OBJS)
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
 %.o: %.cpp
-	$(CXX) -c $< -o $@
+	$(CXX) -c $< -o $@ $(CFLAGS)
