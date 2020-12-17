@@ -12,18 +12,37 @@ static const struct cuse_info cuse_info = {
     .flags = CUSE_UNRESTRICTED_IOCTL,
 };
 
+static void on_open(fuse_req_t req, struct fuse_file_info *file_info);
+
+static void on_read(
+    fuse_req_t req,
+    size_t size,
+    off_t off,
+    struct fuse_file_info *file_info
+);
+
+static void on_write(
+    fuse_req_t req,
+    const char *buf,
+    size_t size,
+    off_t off,
+    struct fuse_file_info *file_info
+);
+
+static void on_flush(fuse_req_t req, struct fuse_file_info *file_info);
+
 static const struct cuse_lowlevel_ops cuse_lowlevel_ops = {
-    .init = nullptr,
+    .init      = nullptr,
     .init_done = nullptr,
-    .destroy = nullptr,
-    .open = nullptr,
-    .read = nullptr,
-    .write = nullptr,
-    .flush = nullptr,
-    .release = nullptr,
-    .fsync = nullptr,
-    .ioctl = nullptr,
-    .poll = nullptr,
+    .destroy   = nullptr,
+    .open      = on_open,
+    .read      = on_read,
+    .write     = on_write,
+    .flush     = on_flush,
+    .release   = nullptr,
+    .fsync     = nullptr,
+    .ioctl     = nullptr,
+    .poll      = nullptr,
 };
 
 int main(int argc, char **argv)
@@ -43,4 +62,35 @@ int main(int argc, char **argv)
     fuse_opt_free_args(&args);
 
     return result;
+}
+
+void on_open(fuse_req_t req, struct fuse_file_info *const file_info)
+{
+    fuse_reply_open(req, file_info);
+}
+
+void on_read(
+    fuse_req_t req,
+    const size_t size __attribute__((unused)),
+    const off_t off __attribute__((unused)),
+    struct fuse_file_info *file_info __attribute__((unused))
+) {
+    fuse_reply_buf(req, nullptr, 0);
+}
+
+void on_write(
+    fuse_req_t req,
+    const char *buf __attribute__((unused)),
+    size_t size,
+    off_t off __attribute__((unused)),
+    struct fuse_file_info *file_info __attribute__((unused))
+) {
+    fuse_reply_write(req, size);
+}
+
+void on_flush(
+    fuse_req_t req,
+    struct fuse_file_info *const file_info __attribute__((unused))
+) {
+    fuse_reply_err(req, 0);
 }
