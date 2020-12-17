@@ -1,3 +1,5 @@
+#include "virtual_file_system.hpp"
+
 #include <errno.h>
 
 #define FUSE_USE_VERSION 31
@@ -7,6 +9,10 @@
 enum class Command {
     Inspect = 1,
 };
+
+static VirtualFileSystem virtual_file_system;
+
+static std::string virtual_file_system_inspect;
 
 static const char *dev_info_argv[] = { "DEVNAME=taivirtfs" };
 
@@ -122,12 +128,22 @@ void on_ioctl(
     case int(Command::Inspect):
         {
             if (out_buf_size == 0) {
-                struct iovec out_iov = { arg, 14 };
+                virtual_file_system_inspect = virtual_file_system.inspect();
+
+                struct iovec out_iov = {
+                    arg,
+                    virtual_file_system_inspect.size()
+                };
+
                 fuse_reply_ioctl_retry(req, nullptr, 0, &out_iov, 1);
             }
             else {
-                static const char hello_world[] = "Hello, World!";
-                fuse_reply_ioctl(req, 0, hello_world, 14);
+                fuse_reply_ioctl(
+                    req,
+                    0,
+                    virtual_file_system_inspect.c_str(),
+                    virtual_file_system_inspect.size()
+                );
             }
         }
         break;

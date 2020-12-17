@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra `pkg-config fuse3 --cflags`
 LDFLAGS = `pkg-config fuse3 --libs`
 
 EXE = taivirtfs
-OBJS = main.o
+OBJS = main.o virtual_file_system.o
 
 all: $(EXE)
 
