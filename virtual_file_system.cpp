@@ -22,3 +22,8 @@ std::string VirtualFileSystem::inspect()
 
     return result;
 }
+
+void VirtualFileSystem::mount(const std::string &target)
+{
+    mounts.push_back(target);
+}

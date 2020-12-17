@@ -8,6 +8,7 @@
 
 enum class Command {
     Inspect = 1,
+    Mount = 3,
 };
 
 static VirtualFileSystem virtual_file_system;
@@ -115,9 +116,9 @@ void on_ioctl(
     void *const arg,
     struct fuse_file_info *const file_info __attribute__((unused)),
     const unsigned flags,
-    const void *const in_buf __attribute__((unused)),
-    const size_t in_buf_size __attribute__((unused)),
-    const size_t out_buf_size __attribute__((unused))
+    const void *const in_buf,
+    const size_t in_buf_size,
+    const size_t out_buf_size
 ) {
     if (flags & FUSE_IOCTL_COMPAT) {
         fuse_reply_err(req, ENOSYS);
@@ -144,6 +145,18 @@ void on_ioctl(
                     virtual_file_system_inspect.c_str(),
                     virtual_file_system_inspect.size()
                 );
+            }
+        }
+        break;
+    case int(Command::Mount):
+        {
+            if (in_buf_size == 0) {
+                struct iovec in_iov = { arg, 256 };
+                fuse_reply_ioctl_retry(req, &in_iov, 1, nullptr, 0);
+            }
+            else {
+                virtual_file_system.mount(static_cast<const char*>(in_buf));
+                fuse_reply_ioctl(req, 0, nullptr, 0);
             }
         }
         break;
