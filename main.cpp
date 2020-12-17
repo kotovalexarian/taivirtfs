@@ -4,6 +4,10 @@
 #include <cuse_lowlevel.h>
 #include <fuse_opt.h>
 
+enum class Command {
+    Inspect = 1,
+};
+
 static const char *dev_info_argv[] = { "DEVNAME=taivirtfs" };
 
 static const struct cuse_info cuse_info = {
@@ -102,7 +106,7 @@ void on_write(
 void on_ioctl(
     fuse_req_t req,
     const int cmd,
-    void *const arg __attribute__((unused)),
+    void *const arg,
     struct fuse_file_info *const file_info __attribute__((unused)),
     const unsigned flags,
     const void *const in_buf __attribute__((unused)),
@@ -115,6 +119,18 @@ void on_ioctl(
     }
 
     switch (cmd) {
+    case int(Command::Inspect):
+        {
+            if (out_buf_size == 0) {
+                struct iovec out_iov = { arg, 14 };
+                fuse_reply_ioctl_retry(req, nullptr, 0, &out_iov, 1);
+            }
+            else {
+                static const char hello_world[] = "Hello, World!";
+                fuse_reply_ioctl(req, 0, hello_world, 14);
+            }
+        }
+        break;
     default:
         fuse_reply_err(req, EINVAL);
     }
