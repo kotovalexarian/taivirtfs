@@ -1,5 +1,3 @@
-#include <iostream>
-
 #define FUSE_USE_VERSION 31
 #include <cuse_lowlevel.h>
 #include <fuse_opt.h>
@@ -66,8 +64,6 @@ int main(int argc, char **argv)
 
 void on_open(fuse_req_t req, struct fuse_file_info *const file_info)
 {
-    std::cout << "open" << std::endl;
-
     fuse_reply_open(req, file_info);
 }
 
@@ -77,8 +73,6 @@ void on_read(
     const off_t off __attribute__((unused)),
     struct fuse_file_info *file_info __attribute__((unused))
 ) {
-    std::cout << "read" << std::endl;
-
     fuse_reply_buf(req, nullptr, 0);
 }
 
@@ -89,7 +83,5 @@ void on_write(
     off_t off __attribute__((unused)),
     struct fuse_file_info *file_info __attribute__((unused))
 ) {
-    std::cout << "write" << std::endl;
-
     fuse_reply_write(req, size);
 }
