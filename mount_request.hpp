@@ -24,6 +24,21 @@ public:
         , raw_target_(raw_target)
     {}
 
+    pid_t pid() const
+    {
+        return pid_;
+    }
+
+    uid_t uid() const
+    {
+        return uid_;
+    }
+
+    gid_t gid() const
+    {
+        return gid_;
+    }
+
     const std::string &raw_target() const
     {
         return raw_target_;
