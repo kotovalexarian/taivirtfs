@@ -6,16 +6,16 @@ std::string VirtualFileSystem::inspect()
 {
     std::string result;
 
-    if (mounts.size() == 0) {
+    if (mounted_file_systems.size() == 0) {
         result.append("0 mounts.\n");
     }
     else {
-        result.append(std::to_string(mounts.size()));
+        result.append(std::to_string(mounted_file_systems.size()));
         result.append(" mounts:\n");
 
-        for (const auto &mount : mounts) {
+        for (const auto &mount : mounted_file_systems) {
             result.append("  ");
-            result.append(mount);
+            result.append(mount.target());
             result.append("\n");
         }
     }
@@ -25,5 +25,6 @@ std::string VirtualFileSystem::inspect()
 
 void VirtualFileSystem::mount(const std::string &target)
 {
-    mounts.push_back(target);
+    MountedFileSystem mounted_file_system(target);
+    mounted_file_systems.push_back(mounted_file_system);
 }
