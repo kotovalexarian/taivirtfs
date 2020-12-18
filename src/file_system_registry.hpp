@@ -3,7 +3,7 @@
 #include "file_systems/base.hpp"
 #include "file_systems/dumbfs.hpp"
 
-#include <optional>
+#include <memory>
 #include <string>
 
 namespace TaiVirtFS {
@@ -11,14 +11,14 @@ namespace TaiVirtFS {
 class FileSystemRegistry final
 {
 public:
-    std::optional<FileSystems::Base>
+    std::unique_ptr<FileSystems::Base>
     build(const std::string &file_system_type) const
     {
         if (file_system_type == "dumbfs") {
-            return std::optional(FileSystems::DumbFS());
+            return std::make_unique<FileSystems::DumbFS>();
         }
         else {
-            return std::optional<FileSystems::Base>();
+            return std::unique_ptr<FileSystems::Base>(nullptr);
         }
     }
 };
