@@ -8,7 +8,6 @@ class MountRequest
     pid_t pid_;
     uid_t uid_;
     gid_t gid_;
-
     std::string raw_target_;
     std::string raw_source_;
     std::string raw_file_system_type_;
