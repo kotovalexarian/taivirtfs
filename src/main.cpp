@@ -10,7 +10,7 @@
 #include <cuse_lowlevel.h>
 #include <fuse_opt.h>
 
-static VirtualFileSystem virtual_file_system;
+static TaiVirtFS::VirtualFileSystem virtual_file_system;
 
 static std::string virtual_file_system_inspect;
 
