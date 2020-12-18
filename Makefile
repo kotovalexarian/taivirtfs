@@ -5,7 +5,7 @@ LDFLAGS = `pkg-config fuse3 --libs`
 
 TAIVIRTFS_EXE = taivirtfs
 IOCTL_EXE = ioctl
-TAIVIRTFS_OBJS = main.o mount_request.o virtual_file_system.o
+TAIVIRTFS_OBJS = main.o mount_request.o mounted_file_system.o virtual_file_system.o
 IOCTL_OBJS = ioctl.o
 
 TAIVIRTFS_OBJ_PATHS = $(addprefix src/, $(TAIVIRTFS_OBJS))

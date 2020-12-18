@@ -13,9 +13,9 @@ std::string VirtualFileSystem::inspect()
         result.append(std::to_string(mounted_file_systems.size()));
         result.append(" mounts:\n");
 
-        for (const auto &mount : mounted_file_systems) {
+        for (const auto &mounted_file_system : mounted_file_systems) {
             result.append("  ");
-            result.append(mount.target());
+            result.append(mounted_file_system.inspect());
             result.append("\n");
         }
     }

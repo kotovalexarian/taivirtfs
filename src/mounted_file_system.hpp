@@ -19,6 +19,8 @@ public:
         , file_system_type_(file_system_type)
     {}
 
+    std::string inspect() const;
+
     const std::string &target() const
     {
         return target_;
