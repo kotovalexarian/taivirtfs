@@ -154,28 +154,28 @@ void on_ioctl(
             if (in_buf_size == 0) {
                 const struct iovec in_iov[4] = {
                     {
-                        .iov_base = arg + offsetof(
+                        .iov_base = (uint8_t*)arg + offsetof(
                             struct TaiVirtFS_Command_Mount,
                             target
                         ),
                         .iov_len = sizeof(char[256]),
                     },
                     {
-                        .iov_base = arg + offsetof(
+                        .iov_base = (uint8_t*)arg + offsetof(
                             struct TaiVirtFS_Command_Mount,
                             source
                         ),
                         .iov_len = sizeof(char[256]),
                     },
                     {
-                        .iov_base = arg + offsetof(
+                        .iov_base = (uint8_t*)arg + offsetof(
                             struct TaiVirtFS_Command_Mount,
                             file_system_type
                         ),
                         .iov_len = sizeof(char[256]),
                     },
                     {
-                        .iov_base = arg + offsetof(
+                        .iov_base = (uint8_t*)arg + offsetof(
                             struct TaiVirtFS_Command_Mount,
                             flags
                         ),
