@@ -152,18 +152,51 @@ void on_ioctl(
     case TAIVIRTFS_COMMAND_MOUNT:
         {
             if (in_buf_size == 0) {
-                struct iovec in_iov = { arg, 256 };
-                fuse_reply_ioctl_retry(req, &in_iov, 1, nullptr, 0);
+                const struct iovec in_iov[4] = {
+                    {
+                        .iov_base = arg + offsetof(
+                            struct TaiVirtFS_Command_Mount,
+                            target
+                        ),
+                        .iov_len = sizeof(char[256]),
+                    },
+                    {
+                        .iov_base = arg + offsetof(
+                            struct TaiVirtFS_Command_Mount,
+                            source
+                        ),
+                        .iov_len = sizeof(char[256]),
+                    },
+                    {
+                        .iov_base = arg + offsetof(
+                            struct TaiVirtFS_Command_Mount,
+                            file_system_type
+                        ),
+                        .iov_len = sizeof(char[256]),
+                    },
+                    {
+                        .iov_base = arg + offsetof(
+                            struct TaiVirtFS_Command_Mount,
+                            flags
+                        ),
+                        .iov_len = sizeof(unsigned long),
+                    }
+                };
+
+                fuse_reply_ioctl_retry(req, in_iov, 4, nullptr, 0);
             }
             else {
+                const struct TaiVirtFS_Command_Mount *const args =
+                    static_cast<const struct TaiVirtFS_Command_Mount*>(in_buf);
+
                 MountRequest mount_request(
                     ctx->pid,
                     ctx->uid,
                     ctx->gid,
-                    static_cast<const char*>(in_buf),
-                    "",
-                    "dumbfs",
-                    0
+                    args->target,
+                    args->source,
+                    args->file_system_type,
+                    args->flags
                 );
 
                 std::cout << mount_request.inspect();
