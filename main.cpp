@@ -1,3 +1,4 @@
+#include <taivirtfs.h>
 #include "mount_request.hpp"
 #include "virtual_file_system.hpp"
 
@@ -6,11 +7,6 @@
 #define FUSE_USE_VERSION 31
 #include <cuse_lowlevel.h>
 #include <fuse_opt.h>
-
-enum class Command {
-    Inspect = 1,
-    Mount = 3,
-};
 
 static VirtualFileSystem virtual_file_system;
 
@@ -127,7 +123,7 @@ void on_ioctl(
     }
 
     switch (cmd) {
-    case int(Command::Inspect):
+    case TAIVIRTFS_COMMAND_INSPECT:
         {
             if (out_buf_size == 0) {
                 virtual_file_system_inspect = virtual_file_system.inspect();
@@ -149,7 +145,7 @@ void on_ioctl(
             }
         }
         break;
-    case int(Command::Mount):
+    case TAIVIRTFS_COMMAND_MOUNT:
         {
             if (in_buf_size == 0) {
                 struct iovec in_iov = { arg, 256 };
