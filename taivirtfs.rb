@@ -23,7 +23,7 @@ class TaiVirtFS
         source,
         file_system_type,
         flags,
-      ].pack('a256a256a256Q'),
+      ].pack('a256a256a256L!'),
     )
   end
 end
