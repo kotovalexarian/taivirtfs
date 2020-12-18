@@ -117,6 +117,8 @@ void on_ioctl(
     const size_t in_buf_size,
     const size_t out_buf_size
 ) {
+    const struct fuse_ctx *const ctx = fuse_req_ctx(req);
+
     if (flags & FUSE_IOCTL_COMPAT) {
         fuse_reply_err(req, ENOSYS);
         return;
@@ -152,7 +154,13 @@ void on_ioctl(
                 fuse_reply_ioctl_retry(req, &in_iov, 1, nullptr, 0);
             }
             else {
-                MountRequest mount_request(static_cast<const char*>(in_buf));
+                MountRequest mount_request(
+                    ctx->pid,
+                    ctx->uid,
+                    ctx->gid,
+                    static_cast<const char*>(in_buf)
+                );
+
                 virtual_file_system.mount(mount_request);
                 fuse_reply_ioctl(req, 0, nullptr, 0);
             }
