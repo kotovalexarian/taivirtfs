@@ -2,6 +2,7 @@
 
 #include "file_systems/base.hpp"
 #include "file_systems/dumbfs.hpp"
+#include "file_systems/hello.hpp"
 
 #include <memory>
 #include <string>
@@ -16,6 +17,9 @@ public:
     {
         if (file_system_type == "dumbfs") {
             return std::make_unique<FileSystems::DumbFS>();
+        }
+        else if (file_system_type == "hello") {
+            return std::make_unique<FileSystems::Hello>();
         }
         else {
             return std::unique_ptr<FileSystems::Base>(nullptr);
