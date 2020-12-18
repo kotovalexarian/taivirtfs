@@ -25,10 +25,16 @@ std::string VirtualFileSystem::inspect()
 
 void VirtualFileSystem::mount(const MountRequest &mount_request)
 {
+    std::optional<TaiVirtFS::FileSystems::Base> file_system =
+        file_system_registry.build(mount_request.raw_file_system_type());
+
+    if (!file_system) return;
+
     MountedFileSystem mounted_file_system(
         mount_request.raw_target(),
         mount_request.raw_source(),
-        mount_request.raw_file_system_type()
+        mount_request.raw_file_system_type(),
+        std::move(file_system.value())
     );
 
     mounted_file_systems.push_back(mounted_file_system);

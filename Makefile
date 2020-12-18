@@ -1,6 +1,6 @@
 CXX = g++
 
-CFLAGS = -Wall -Wextra -Iinclude `pkg-config fuse3 --cflags`
+CFLAGS = -std=c++17 -Wall -Wextra -Iinclude `pkg-config fuse3 --cflags`
 LDFLAGS = `pkg-config fuse3 --libs`
 
 TAIVIRTFS_EXE = taivirtfs
