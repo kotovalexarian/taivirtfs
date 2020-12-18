@@ -8,7 +8,7 @@
 namespace TaiVirtFS {
 namespace FileSystems {
 
-class DumbFS : public Base
+class Dumb : public Base
 {
 public:
     int read_dir(const std::string &path, Directory &directory) const override
