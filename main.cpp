@@ -158,7 +158,10 @@ void on_ioctl(
                     ctx->pid,
                     ctx->uid,
                     ctx->gid,
-                    static_cast<const char*>(in_buf)
+                    static_cast<const char*>(in_buf),
+                    "",
+                    "dumbfs",
+                    0
                 );
 
                 virtual_file_system.mount(mount_request);
