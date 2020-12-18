@@ -33,38 +33,20 @@ public:
         , flags_(flags)
     {}
 
-    pid_t pid() const
-    {
-        return pid_;
-    }
+    pid_t pid() const { return pid_; }
 
-    uid_t uid() const
-    {
-        return uid_;
-    }
+    uid_t uid() const { return uid_; }
 
-    gid_t gid() const
-    {
-        return gid_;
-    }
+    gid_t gid() const { return gid_; }
 
-    const std::string &raw_target() const
-    {
-        return raw_target_;
-    }
+    const std::string &raw_target() const { return raw_target_; }
 
-    const std::string &raw_source() const
-    {
-        return raw_source_;
-    }
+    const std::string &raw_source() const { return raw_source_; }
 
     const std::string &raw_file_system_type() const
     {
         return raw_file_system_type_;
     }
 
-    unsigned long flags() const
-    {
-        return flags_;
-    }
+    unsigned long flags() const { return flags_; }
 };
