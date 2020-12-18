@@ -4,8 +4,8 @@
 #include <linux/ioctl.h>
 
 enum {
-    TAIVIRTFS_COMMAND_INSPECT = _IO('T', 0),
-    TAIVIRTFS_COMMAND_MOUNT   = _IO('T', 1),
+    TAIVIRTFS_COMMAND_INSPECT = _IO('E', 0),
+    TAIVIRTFS_COMMAND_MOUNT   = _IO('E', 1),
 };
 
 #endif
