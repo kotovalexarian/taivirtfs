@@ -19,6 +19,11 @@ public:
     pid_t pid() const { return pid_; }
     uid_t uid() const { return uid_; }
     gid_t gid() const { return gid_; }
+
+    Process fork(const pid_t child_pid) const
+    {
+        return Process(child_pid, uid_, gid_);
+    }
 };
 
 }
