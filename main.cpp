@@ -2,6 +2,8 @@
 #include "mount_request.hpp"
 #include "virtual_file_system.hpp"
 
+#include <iostream>
+
 #include <errno.h>
 
 #define FUSE_USE_VERSION 31
@@ -163,6 +165,8 @@ void on_ioctl(
                     "dumbfs",
                     0
                 );
+
+                std::cout << mount_request.inspect();
 
                 virtual_file_system.mount(mount_request);
                 fuse_reply_ioctl(req, 0, nullptr, 0);

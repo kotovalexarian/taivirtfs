@@ -32,6 +32,8 @@ public:
         , flags_(flags)
     {}
 
+    std::string inspect() const;
+
     pid_t pid() const { return pid_; }
 
     uid_t uid() const { return uid_; }
