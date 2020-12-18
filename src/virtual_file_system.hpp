@@ -11,7 +11,7 @@
 class VirtualFileSystem final
 {
     TaiVirtFS::FileSystemRegistry file_system_registry;
-    std::vector<MountedFileSystem> mounted_file_systems;
+    std::vector<TaiVirtFS::MountedFileSystem> mounted_file_systems;
     TaiVirtFS::ProcessList process_list;
 public:
     std::string inspect();

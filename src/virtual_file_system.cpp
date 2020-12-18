@@ -31,7 +31,7 @@ int VirtualFileSystem::mount(const MountRequest &mount_request)
 
     if (!file_system.get()) return ENODEV;
 
-    MountedFileSystem mounted_file_system(
+    TaiVirtFS::MountedFileSystem mounted_file_system(
         mount_request.raw_target(),
         mount_request.raw_source(),
         mount_request.raw_file_system_type(),

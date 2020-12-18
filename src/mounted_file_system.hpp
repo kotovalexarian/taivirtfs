@@ -5,19 +5,21 @@
 #include <memory>
 #include <string>
 
+namespace TaiVirtFS {
+
 class MountedFileSystem final
 {
     std::string target_;
     std::string source_;
     std::string file_system_type_;
-    std::unique_ptr<TaiVirtFS::FileSystems::Base> file_system_;
+    std::unique_ptr<FileSystems::Base> file_system_;
 
 public:
     MountedFileSystem(
         const std::string &target,
         const std::string &source,
         const std::string &file_system_type,
-        std::unique_ptr<TaiVirtFS::FileSystems::Base> file_system
+        std::unique_ptr<FileSystems::Base> file_system
     )
         : target_(target)
         , source_(source)
@@ -42,3 +44,5 @@ public:
         return file_system_type_;
     }
 };
+
+}

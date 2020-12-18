@@ -1,6 +1,6 @@
 #include "mounted_file_system.hpp"
 
-std::string MountedFileSystem::inspect() const
+std::string TaiVirtFS::MountedFileSystem::inspect() const
 {
     std::string result;
     result.append(source_);
