@@ -27,7 +27,8 @@ void VirtualFileSystem::mount(const MountRequest &mount_request)
 {
     MountedFileSystem mounted_file_system(
         mount_request.raw_target(),
-        mount_request.raw_source()
+        mount_request.raw_source(),
+        mount_request.raw_file_system_type()
     );
 
     mounted_file_systems.push_back(mounted_file_system);
