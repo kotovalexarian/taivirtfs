@@ -41,12 +41,18 @@ public:
 
     const std::string &raw_target() const { return raw_target_; }
 
+    std::string escaped_target() const;
+
     const std::string &raw_source() const { return raw_source_; }
+
+    std::string escaped_source() const;
 
     const std::string &raw_file_system_type() const
     {
         return raw_file_system_type_;
     }
+
+    std::string escaped_file_system_type() const;
 
     unsigned long flags() const { return flags_; }
 };
