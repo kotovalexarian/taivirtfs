@@ -168,8 +168,8 @@ void on_ioctl(
 
                 std::cout << mount_request.inspect();
 
-                virtual_file_system.mount(mount_request);
-                fuse_reply_ioctl(req, 0, nullptr, 0);
+                int result = virtual_file_system.mount(mount_request);
+                fuse_reply_ioctl(req, result, nullptr, 0);
             }
         }
         break;

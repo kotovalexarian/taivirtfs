@@ -1,5 +1,6 @@
 #include "virtual_file_system.hpp"
 
+#include <cerrno>
 #include <iostream>
 
 std::string VirtualFileSystem::inspect()
@@ -23,12 +24,12 @@ std::string VirtualFileSystem::inspect()
     return result;
 }
 
-void VirtualFileSystem::mount(const MountRequest &mount_request)
+int VirtualFileSystem::mount(const MountRequest &mount_request)
 {
     std::optional<TaiVirtFS::FileSystems::Base> file_system =
         file_system_registry.build(mount_request.raw_file_system_type());
 
-    if (!file_system) return;
+    if (!file_system) return ENODEV;
 
     MountedFileSystem mounted_file_system(
         mount_request.raw_target(),
@@ -38,4 +39,6 @@ void VirtualFileSystem::mount(const MountRequest &mount_request)
     );
 
     mounted_file_systems.push_back(mounted_file_system);
+
+    return 0;
 }
