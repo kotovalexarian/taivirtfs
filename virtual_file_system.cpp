@@ -23,8 +23,8 @@ std::string VirtualFileSystem::inspect()
     return result;
 }
 
-void VirtualFileSystem::mount(const std::string &target)
+void VirtualFileSystem::mount(const MountRequest &mount_request)
 {
-    MountedFileSystem mounted_file_system(target);
+    MountedFileSystem mounted_file_system(mount_request.raw_target());
     mounted_file_systems.push_back(mounted_file_system);
 }

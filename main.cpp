@@ -1,3 +1,4 @@
+#include "mount_request.hpp"
 #include "virtual_file_system.hpp"
 
 #include <errno.h>
@@ -155,7 +156,8 @@ void on_ioctl(
                 fuse_reply_ioctl_retry(req, &in_iov, 1, nullptr, 0);
             }
             else {
-                virtual_file_system.mount(static_cast<const char*>(in_buf));
+                MountRequest mount_request(static_cast<const char*>(in_buf));
+                virtual_file_system.mount(mount_request);
                 fuse_reply_ioctl(req, 0, nullptr, 0);
             }
         }
